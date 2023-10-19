@@ -30,13 +30,13 @@ export class TransactionsService {
 
     return this.transactionsRepo.create({
       data: {
-        userId,
-        bankAccountId,
-        categoryId,
-        date,
-        name,
         type,
+        name,
+        date,
         value,
+        userId,
+        categoryId,
+        bankAccountId,
       },
     });
   }
