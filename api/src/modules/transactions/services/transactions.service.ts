@@ -19,7 +19,7 @@ export class TransactionsService {
     private readonly transactionsRepo: TransactionsRepository,
     private readonly validateBankAccountOwnershipService: ValidateBankAccountOwnershipService,
     private readonly validateCategoryOwnershipService: ValidateCategoryOwnershipService,
-    private readonly validateTransationOwnershipService: ValidateTransactionOwnershipService,
+    private readonly validateTransactionOwnershipService: ValidateTransactionOwnershipService,
   ) {}
 
   async create(userId: string, createTransactionDto: CreateTransactionDto) {
@@ -41,8 +41,20 @@ export class TransactionsService {
     });
   }
 
-  findAllByUserId(userId: string) {
-    return this.transactionsRepo.findMany({ where: { userId } });
+  findAllByUserId(
+    userId: string,
+    filters: { month: number; year: number; bankAccountId?: string },
+  ) {
+    return this.transactionsRepo.findMany({
+      where: {
+        userId,
+        bankAccountId: filters.bankAccountId,
+        date: {
+          gte: new Date(Date.UTC(filters.year, filters.month)),
+          lt: new Date(Date.UTC(filters.year, filters.month + 1)),
+        },
+      },
+    });
   }
 
   async update(
@@ -67,7 +79,7 @@ export class TransactionsService {
   }
 
   async remove(userId: string, transactionId: string) {
-    await this.validateTransationOwnershipService.validate(
+    await this.validateTransactionOwnershipService.validate(
       userId,
       transactionId,
     );
@@ -91,7 +103,10 @@ export class TransactionsService {
 
     await Promise.all([
       transactionId &&
-        this.validateTransationOwnershipService.validate(userId, transactionId),
+        this.validateTransactionOwnershipService.validate(
+          userId,
+          transactionId,
+        ),
       validateCategoryOwnership,
       validateBankAccountOwnership,
     ]);
