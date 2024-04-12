@@ -14,8 +14,8 @@ export const Login = () => {
         </p>
       </header>
       <form className="mt-[60px] flex flex-col gap-4">
-        <Input type="email" />
-        <Input type="password" />
+        <Input type="email" placeholder="Email" />
+        <Input type="password" placeholder="Senha" />
         <button type="submit" className="mt-2"></button>
       </form>
     </div>
