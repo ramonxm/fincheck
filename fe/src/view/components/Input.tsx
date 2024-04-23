@@ -1,8 +1,8 @@
-import { ComponentProps, useId } from 'react';
+import { ComponentProps, forwardRef, useId } from 'react';
 
 interface InputProps extends ComponentProps<'input'> {}
 
-export const Input = ({ placeholder, ...props }: InputProps) => {
+export const Input = forwardRef<HTMLInputElement, InputProps>(({ placeholder, ...props }, ref) => {
   const id = useId();
 
   return (
@@ -10,6 +10,7 @@ export const Input = ({ placeholder, ...props }: InputProps) => {
       <input
         {...props}
         id={id}
+        ref={ref}
         className="bg-white w-full rounded-lg border border-gray-500 px-3 h-[52px] text-gray-800 pt-4 peer placeholder-shown:pt-0"
         placeholder=" "
       />
@@ -20,4 +21,4 @@ export const Input = ({ placeholder, ...props }: InputProps) => {
       </label>
     </div>
   );
-};
+});
