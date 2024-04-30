@@ -15,20 +15,20 @@ type FormData = z.infer<typeof schema>;
 
 export const useRegisterController = () => {
   const {
-    handleSubmit: hookFormHandleSubmit,
     register,
     formState: { errors },
+    handleSubmit: hookFormHandleSubmit,
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const mutation = useMutation({ mutationFn: authService.signup });
 
   const handleSubmit = hookFormHandleSubmit(async data => {
     try {
-      const { accessToken } = await mutation.mutateAsync(data);
+      await mutation.mutateAsync(data);
     } catch (error) {
       toast.error('Ocorreu um erro ao criar a sua conta!');
     }
   });
 
-  return { handleSubmit, register, errors };
+  return { handleSubmit, register, errors, isLoading: mutation.isPending };
 };
