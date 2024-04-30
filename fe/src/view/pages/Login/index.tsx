@@ -18,8 +18,14 @@ export const Login = () => {
         </p>
       </header>
       <form onSubmit={handleSubmit} className="mt-[60px] flex flex-col gap-4">
-        <Input type="email" placeholder="Email" {...register('email')} error={errors.email?.message} />
-        <Input type="password" placeholder="Senha" {...register('password')} error={errors.password?.message} />
+        <Input type="email" placeholder="Email" disabled={isLoading} {...register('email')} error={errors.email?.message} />
+        <Input
+          type="password"
+          placeholder="Senha"
+          disabled={isLoading}
+          {...register('password')}
+          error={errors.password?.message}
+        />
         <Button type="submit" isLoading={isLoading}>
           Entrar
         </Button>
