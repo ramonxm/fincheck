@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   }, [setAccessToken]);
 
-  useQuery({ queryFn: usersService.me, queryKey: ['loggedUser'], enabled: signedIn });
+  const { data } = useQuery({ queryFn: usersService.me, queryKey: ['loggedUser'], enabled: signedIn, staleTime: Infinity });
 
   const signin = useCallback(
     (accessToken: string) => {
@@ -48,5 +48,5 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     setSignedIn(false);
   }, []);
-  return <AuthContext.Provider value={{ signedIn, signin, signout }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{ signedIn, signin, signout, user: data }}>{children}</AuthContext.Provider>;
 };
