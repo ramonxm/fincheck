@@ -1,6 +1,8 @@
-import { useAuth } from '../../../app/hooks/useAuth';
-
 export const Dashboard = () => {
-  const { signout } = useAuth();
-  return <h1> Dashboard Page</h1>;
+  return (
+    <div className="h-full w-full px-8 pt-6 flex flex-col">
+      <header>Header</header>
+      <main>content</main>
+    </div>
+  );
 };
